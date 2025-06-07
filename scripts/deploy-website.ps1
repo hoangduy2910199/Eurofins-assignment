@@ -12,11 +12,32 @@ param(
     [Parameter(Mandatory = $true)]
     [string]$Password,
     [string]$GroupName = "WebAppUsers",
-    [string]$PfxPath = "..\assets\localhost.pfx",
+    [string]$PfxPath = "..\assets\${BindingHost}.pfx",
     [Parameter(Mandatory = $true)]
     [string]$PfxPassword,
-    [string]$SourcePath = "..\app\HelloWorldApi"
+    [string]$SourcePath = "..\app\HelloWorldApi",
+    [string]$CertPath = "Cert:\LocalMachine\My",
+    [string]$SeflSignedCert = $true
 )
+
+# Function to generate a self signed certificate (if needed)
+function Generate-SelfSignedCertificate {
+    param (
+        [string]$CertName = "localhost",
+        [string]$CertPath = "Cert:\LocalMachine\My",
+        [string]$PfxPassword
+    )
+    try {
+        Write-Host "Generating self-signed certificate host ${BindingHost}..."
+        $cert = New-SelfSignedCertificate -DnsName $BindingHost -CertStoreLocation $CertPath -FriendlyName "Sefl signed cert for hello world app" -NotAfter (Get-Date).AddYears(1)
+        $pwd = ConvertTo-SecureString -String $PfxPassword -AsPlainText -Force
+        Export-PfxCertificate -Cert $cert -FilePath "C:\Learning\Eurofins-assignment\assets\${BindingHost}.pfx" -Password $pwd
+
+    }
+    catch {
+        Write-Error "Failed to generate self-signed certificate: ${_}"
+    }
+}
 
 # Function to create a new IIS application user and assign permissions
 function New-IISAppUser {
@@ -179,21 +200,41 @@ function New-IISApplication {
     }
 }
 
-
+# Main script execution starts here
 try {
-    # 1. Create IIS App User and assign permissions
+    # 1. Generate self-signed certificate if needed
+
+    Write-Host "`n---------- Checking for existing certificate and create if needed ----------"
+    
+    # Check if a certificate exists for the specified host (by subject name)
+    $cert = Get-ChildItem -Path $CertPath | Where-Object { $_.Subject -like "*CN=$BindingHost*" }
+    if ($cert) {
+        Write-Host "Certificate for host '$BindingHost' already exists with thumbprint $($cert.Thumbprint)."
+        $CertThumbprint = $cert.Thumbprint
+    } elseif ($SeflSignedCert) {
+        Write-Host "No certificate found for host '$BindingHost'. Generating a self-signed certificate..."
+        Generate-SelfSignedCertificate -CertName $BindingHost -PfxPassword $PfxPassword
+    }
+    
+    Write-Host "`n---------- Creating User, Group and Granting Permissions ----------"
+
+    # 2. Create IIS App User and assign permissions
     New-IISAppUser -UserName $UserName -Password $Password -GroupName $GroupName
 
-    # 2. Create App Pool with the user
+    Write-Host "`n---------- Creating App Pool ----------"
+    # 3. Create App Pool with the user
     New-AppPoolWithUser -AppPoolName $AppPoolName -UserName $UserName -Password $Password
 
-    # 3. Create Website
+    Write-Host "`n---------- Creating Website ----------"
+    # 4. Create Website
     New-IISWebsite -SiteName $SiteName -PhysicalPath $PhysicalPath -BindingHost $BindingHost -HttpsPort $HttpsPort -AppPoolName $AppPoolName -PfxPath $PfxPath -PfxPassword $PfxPassword
 
-    # 4. Publish Web App to sub application path
+    Write-Host "`n---------- Publishing Web App ----------"
+    # 5. Publish Web App to sub application path
     Publish-WebApp -AppPath $AppPath -SourcePath $SourcePath
 
-    # 5. Create IIS Sub Application
+    Write-Host "`n---------- Creating IIS Sub Application ----------"
+    # 6. Create IIS Sub Application
     New-IISApplication -SiteName $SiteName -AppName $AppName -AppPath $AppPath -AppPoolName $AppPoolName
 
     Write-Host "Website and sub application deployment completed successfully. You can access it at https://${BindingHost}:${HttpsPort}/${AppName}"
