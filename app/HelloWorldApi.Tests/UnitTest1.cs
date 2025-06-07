@@ -17,11 +17,11 @@ namespace HelloWorldApi.Tests
         [Fact]
         public async Task HelloEndpoint_ReturnsHelloMessage()
         {
-            var response = await _client.GetAsync("/hello");
+            var response = await _client.GetAsync("/");
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
-            Assert.Equal("Hello, CI/CD!", content);
+            Assert.Equal("Hello, Eurofins!", content);
         }
     }
 }
