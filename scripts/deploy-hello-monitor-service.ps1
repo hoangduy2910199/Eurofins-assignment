@@ -42,15 +42,19 @@ function New-PublicFolderUser {
 
         # Read and update the SeServiceLogonRight line
         $lines = Get-Content $seceditExport
-        $index = $lines.FindIndex({ $_ -match '^SeServiceLogonRight' })
-        if ($index -ge 0) {
-            if ($lines[$index] -notmatch $Sid) {
-                $lines[$index] += ",$Sid"
+        $updatedLines = $updatedContent = $lines | ForEach-Object {
+            if ($_ -like "SeServiceLogonRight =*") {
+                if ($_ -notlike "*$Sid*") {
+                    $_ + ",*" + $Sid
+                    Write-Host "Updated SeServiceLogonRight to include user $UserName with SID $Sid"
+                } else {
+                    $_
+                }
+            } else {
+                $_
             }
-        } else {
-            $lines += "SeServiceLogonRight = $Sid"
         }
-        Set-Content -Path $seceditImport -Value $lines
+        Set-Content -Path $seceditImport -Value $updatedLines
 
         # Import the updated policy
         secedit.exe /configure /db "$env:TEMP\secpol.sdb" /cfg $seceditImport /areas USER_RIGHTS | Out-Null
@@ -137,7 +141,7 @@ try {
     Write-Host ".NET service published successfully."
 
     Write-Host "Step 3: Creating and starting Windows service '$ServiceName'..."
-    New-WindowsService -ServiceName $ServiceName -DisplayName $ServiceName -ExecutablePath "$PublishFolder\$ServiceName.exe" -UserName "$env:COMPUTERNAME\$UserName"
+    New-WindowsService -ServiceName $ServiceName -DisplayName $ServiceName -ExecutablePath "$PublishFolder\HelloWorldMonitorService.exe" -UserName "$env:COMPUTERNAME\$UserName"
     Write-Host "Windows service '$ServiceName' created and started successfully."
 }
 catch {
