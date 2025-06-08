@@ -31,6 +31,6 @@ jobs:
   code-quality-check:
     uses: ./.github/workflows/code-quality-check.yml
     with:
-      working-directory: ${{ env.APP_WORKING_DIR }}
-      test-directory: ${{ env.TEST_DIRECTORY }}
-      dotnet-version: ${{ env.DOTNET_VERSION }}
+      working-directory: $APP_WORKING_DIR
+      test-directory: $TEST_DIRECTORY
+      dotnet-version: $DOTNET_VERSION
