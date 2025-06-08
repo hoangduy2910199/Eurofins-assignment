@@ -27,7 +27,8 @@ runs:
     # Step 3: Create NuGet cache folder
     - name: Create NuGet cache folder
       run: mkdir -p ~/.nuget/packages
-
+      shell: bash
+      
     # Step 4: Cache NuGet packages
     - name: Cache NuGet packages
       uses: actions/cache@v3
@@ -41,3 +42,4 @@ runs:
     - name: Restore dependencies
       run: dotnet restore
       working-directory: "./${{ inputs.working-directory }}"
+      shell: bash
