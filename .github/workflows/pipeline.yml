@@ -22,6 +22,14 @@ on:
         options:
           - Non-Prod
           - Prod
+      publish-type:
+        description: 'Select the publish type: Artifac or Docker image'
+        required: true
+        default: 'Artifact'
+        type: choice
+        options:
+          - Artifact
+          - Image
           
 jobs:
   prepare-variable:
@@ -44,3 +52,12 @@ jobs:
       working-directory: ${{ needs.prepare-variable.outputs.APP_WORKING_DIR }}
       test-directory: ${{ needs.prepare-variable.outputs.TEST_DIRECTORY }}
       dotnet-version: ${{ vars.DOTNET_VERSION }}
+  publish-app:
+    name: Publish Application to ${{ github.event.inputs.publish-type }}
+    needs: code-quality-and-security-check
+    uses: ./.github/workflows/publish-artifact.yml
+    with:
+      working-directory: ${{ needs.prepare-variable.outputs.APP_WORKING_DIR }}
+      test-directory: ${{ needs.prepare-variable.outputs.TEST_DIRECTORY }}
+      dotnet-version: ${{ vars.DOTNET_VERSION }}
+      publish-type: ${{ github.event.inputs.publish-type }}
