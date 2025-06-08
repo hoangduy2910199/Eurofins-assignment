@@ -25,12 +25,11 @@ on:
 env:
     APP_WORKING_DIR: "./app/HelloWorldApi/"
     TEST_DIRECTORY: "./app/HelloWorldApi.Tests"
-    DOTNET_VERSION: ${{ vars.DOTNET_VERSION }}
-
+    
 jobs:
   code-quality-check:
     uses: ./.github/workflows/code-quality-check.yml
     with:
-      dotnet-version: ${{ env.DOTNET_VERSION }}
+      dotnet-version: ${{ vars.DOTNET_VERSION }}
       working-directory: ${{ env.APP_WORKING_DIR }}
       test-directory: ${{ env.TEST_DIRECTORY }}
