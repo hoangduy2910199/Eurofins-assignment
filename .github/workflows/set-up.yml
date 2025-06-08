@@ -1,3 +1,5 @@
+name: 'Set up .Net evironment'
+
 on:
   workflow_call:
     inputs:
