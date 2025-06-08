@@ -1,7 +1,7 @@
 name: 'Publish artifact or docker image'
 
 on:
-  workflow_call:
+  workflow_dispatch:          # manual trigger with inputs
     inputs:
       working-directory:
         description: 'Project working directory'
@@ -12,29 +12,48 @@ on:
         required: true
         type: string
       publish-type:
-        description: 'Publish type(artifact or docker image)'
+        description: 'Publish type (artifact or docker image)'
+        required: true
+        type: choice
+        options:
+          - artifact
+          - docker-image
+
+  workflow_call:              # reusable workflow call trigger
+    inputs:
+      working-directory:
+        description: 'Project working directory'
         required: true
         type: string
-jobs:
-  publish-aftifact:
-   name: Build & Publish Artifact
-   runs-on: ubuntu-latest
-   if: ${{ inputs.publish-type == 'artifact' }}
-   steps:
-     - name: Checkout code
-       uses: actions/checkout@v4
+      dotnet-version:
+        description: '.NET SDK version'
+        required: true
+        type: string
+      publish-type:
+        description: 'Publish type (artifact or docker image)'
+        required: true
+        type: string
 
-     - name: Set up dotnet env
-       uses: ./.github/actions/setup-dotnet
-       with:
-         dotnet-version: ${{ inputs.dotnet-version }}
-         working-directory: ${{ inputs.working-directory }}
-         
-     - name: Publish application
-       run: dotnet publish --no-restore -c Release -o ./publish
-       
-     - name: Upload published artifact
-       uses: actions/upload-artifact@v4
-       with:
-         name: helloworld-app
-         path: ./publish
+jobs:
+  publish-artifact:
+    name: Build & Publish Artifact
+    runs-on: ubuntu-latest
+    if: ${{ inputs.publish-type == 'artifact' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up dotnet env
+        uses: ./.github/actions/setup-dotnet
+        with:
+          dotnet-version: ${{ inputs.dotnet-version }}
+          working-directory: ${{ inputs.working-directory }}
+
+      - name: Publish application
+        run: dotnet publish --no-restore -c Release -o ./publish
+
+      - name: Upload published artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: helloworld-app
+          path: ./publish
