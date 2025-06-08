@@ -27,7 +27,7 @@ env:
     TEST_DIRECTORY: "./app/HelloWorldApi.Tests"
 jobs:
   code-quality-check:
-    uses: .github/workflows/code-quality-check.yml@main
+    uses: ./.github/workflows/code-quality-check.yml
     with:
       dotnet-version: ${{ vars.DOTNET_VERSION }}
       working-directory: ${{ env.APP_WORKING_DIR }}
