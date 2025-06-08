@@ -12,7 +12,7 @@ on:
         required: true
         type: string
       environment:
-        description: '.NET SDK version'
+        description: 'Environment'
         required: true
         type: string
       publish-type:
@@ -27,6 +27,10 @@ on:
     inputs:
       working-directory:
         description: 'Project working directory'
+        required: true
+        type: string
+      environment:
+        description: 'Environment'
         required: true
         type: string
       dotnet-version:
