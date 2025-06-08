@@ -40,4 +40,4 @@ runs:
     # Step 5: Restore dependencies
     - name: Restore dependencies
       run: dotnet restore
-      working-directory: ${{ inputs.working-directory }}
+      working-directory: "./${{ inputs.working-directory }}"
