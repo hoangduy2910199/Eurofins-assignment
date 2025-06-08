@@ -5,8 +5,10 @@ on:
         description: 'Project working directory'
         required: true
         type: string
-env:
-    APP_WORKING_DIR: "./app/HelloWorldApi/"
+      dotnet-version:
+        description: '.NET SDK version'
+        required: true
+        type: string
 jobs:
   setup-dotnet:
     name: Checkout and Setup .NET SDK
@@ -19,7 +21,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: ${{ vars.DOTNET_VERSION }}
+        dotnet-version: ${{ inputs.dotnet-version }}
         
     - name: Create NuGet cache folder
       run: mkdir -p ~/.nuget/packages
@@ -31,6 +33,7 @@ jobs:
         key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
         restore-keys: |
           ${{ runner.os }}-nuget-
+          
     - name: Restore dependencies
-      working-directory: ${{ env.APP_WORKING_DIR }}
+      working-directory: ${{ inputs.working-directory }}
       run: dotnet restore
