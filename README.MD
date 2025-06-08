@@ -21,7 +21,7 @@ This is Eurofins Devops engineer assignment. The main purpose is to automate a b
 | Status monitoring service       | Use .Net. The service is in `./services/HelloWorldMonitorService` - [GitHub Link](https://github.com/hoangduy2910199/Eurofins-assignment/tree/main/services/HelloWorldMonitorService)                                          | Done          |
 | Windows service deployment script | Use Powershell. The script is in `./scripts/deploy-hello-monitor-service.ps1` - [GitHub Link](https://github.com/hoangduy2910199/Eurofins-assignment/blob/main/scripts/deploy-hello-monitor-service.ps1)                       | Done          |
 | Docker image build              | Include in the pipeline at Step 1                                                                                                                                                                                                | Done          |
-| Script to deploy Docker container | Not completed.                                                                                                                                                                                                                   | Not completed |
+| Script to deploy Docker container | Use Bash script. The script is in `./scripts/deploy-container.sh` - [GitHub Link]() completed.                                                                                                                                                                                                                   | Not completed |
 
 
 # CI/CD build
@@ -136,3 +136,17 @@ This is Eurofins Devops engineer assignment. The main purpose is to automate a b
     ![alt text](./assets/image-15.png)
 
     ![alt text](./assets/image-16.png)
+
+
+# Bash script to deploy a Docker container
+    
+        ./deploy-container.sh 
+        Enter Docker registry (e.g., registry.example.com): docker.io
+        Enter username: duyphan28101997
+        Enter password: Enter image name (e.g., myrepo/myimage:tag): duyphan28101997/helloworld-api:latest
+        Enter container name: hello-api
+        Enter port to expose (default 8080): 9783
+    
+
+## Example of running
+![alt text](./assets/image18.png)
