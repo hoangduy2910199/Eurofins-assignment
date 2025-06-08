@@ -37,5 +37,5 @@ jobs:
           ${{ runner.os }}-nuget-
           
     - name: Restore dependencies
-      working-directory: ${{ inputs.working-directory }}
+      working-directory: "/${{ inputs.working-directory }}"
       run: dotnet restore
