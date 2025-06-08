@@ -5,7 +5,7 @@ WORKDIR /app
 # Copy csproj and restore
 COPY *.sln .
 COPY /app/HelloWorldApi/*.csproj ./myApp/
-RUN dotnet restore
+RUN dotnet restore /myApp/
 
 # Copy everything and build
 COPY . .
