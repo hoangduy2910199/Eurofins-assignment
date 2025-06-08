@@ -50,6 +50,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Check if secrets are available
+        run: |
+          echo "Docker Hub Token: ${{ secrets.DOCKERHUB_TOKEN }}"
 
       - name: Set up dotnet env
         uses: ./.github/actions/setup-dotnet
