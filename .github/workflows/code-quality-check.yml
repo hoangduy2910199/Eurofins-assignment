@@ -17,7 +17,7 @@ on:
         type: string
 jobs:
   setup-environment:
-    uses: .github/workflows/set-up.yml@main
+    uses: ./.github/workflows/set-up.yml
     with:
       dotnet-version: ${{ inputs.dotnet-version }}
       working-directory: ${{ inputs.working-directory }}
