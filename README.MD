@@ -21,7 +21,7 @@ This is Eurofins Devops engineer assignment. The main purpose is to automate a b
 | Status monitoring service       | Use .Net. The service is in `./services/HelloWorldMonitorService` - [GitHub Link](https://github.com/hoangduy2910199/Eurofins-assignment/tree/main/services/HelloWorldMonitorService)                                          | Done          |
 | Windows service deployment script | Use Powershell. The script is in `./scripts/deploy-hello-monitor-service.ps1` - [GitHub Link](https://github.com/hoangduy2910199/Eurofins-assignment/blob/main/scripts/deploy-hello-monitor-service.ps1)                       | Done          |
 | Docker image build              | Include in the pipeline at Step 1                                                                                                                                                                                                | Done          |
-| Script to deploy Docker container | Use Bash script. The script is in `./scripts/deploy-container.sh` - [GitHub Link]() completed.                                                                                                                                                                                                                   | Not completed |
+| Script to deploy Docker container | Use Bash script. The script is in `./scripts/deploy-container.sh` - [GitHub Link](https://github.com/hoangduy2910199/Eurofins-assignment/blob/main/scripts/deploy-container.sh) .                                                                                                                                                                                                                   | Done |
 
 
 # CI/CD build
