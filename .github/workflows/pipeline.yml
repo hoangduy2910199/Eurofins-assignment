@@ -31,4 +31,4 @@ jobs:
     with:
       dotnet-version: ${{ vars.DOTNET_VERSION }}
       working-directory: ${{ env.APP_WORKING_DIR }}
-      test-directory: ${{env.TEST_DIRECTORY}}
+      test-directory: ${{ env.TEST_DIRECTORY }}
