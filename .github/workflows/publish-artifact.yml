@@ -13,15 +13,17 @@ on:
         type: string
       environment:
         description: 'Environment'
+        default: 'Non-Prod'
         required: true
         type: string
       publish-type:
         description: 'Publish type (artifact or docker image)'
         required: true
+        default: 'Artifact'
         type: choice
         options:
-          - artifact
-          - docker-image
+          - Artifact
+          - Image
 
   workflow_call:              # reusable workflow call trigger
     inputs:
