@@ -14,22 +14,18 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    # Step 1: Checkout repository
-    - name: Checkout repository
-      uses: actions/checkout@v4
-
-    # Step 2: Setup .NET SDK
+    # Step 1: Setup .NET SDK
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ inputs.dotnet-version }}
 
-    # Step 3: Create NuGet cache folder
+    # Step 2: Create NuGet cache folder
     - name: Create NuGet cache folder
       run: mkdir -p ~/.nuget/packages
       shell: bash
       
-    # Step 4: Cache NuGet packages
+    # Step 3: Cache NuGet packages
     - name: Cache NuGet packages
       uses: actions/cache@v3
       with:
@@ -38,7 +34,7 @@ runs:
         restore-keys: |
           ${{ runner.os }}-nuget-
 
-    # Step 5: Restore dependencies
+    # Step 4: Restore dependencies
     - name: Restore dependencies
       run: dotnet restore
       working-directory: "./${{ inputs.working-directory }}"
