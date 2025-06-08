@@ -38,6 +38,8 @@ jobs:
   code-quality-and-security-check:
     needs: prepare-variable
     uses: ./.github/workflows/code-quality-check.yml
+    permissions:
+      security-events: write
     with:
       working-directory: ${{ needs.prepare-variable.outputs.APP_WORKING_DIR }}
       test-directory: ${{ needs.prepare-variable.outputs.TEST_DIRECTORY }}
