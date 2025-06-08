@@ -15,17 +15,16 @@ on:
         description: '.Net SDK version'
         required: true
         type: string
-jobs:
-  setup-environment:
-    uses: ./.github/actions/setup-dotnet
-    with:
-      dotnet-version: ${{ inputs.dotnet-version }}
-      working-directory: ${{ inputs.working-directory }}
-      
+jobs: 
   code-quality-check:
-    needs: setup-environment
     runs-on: ubuntu-latest
     steps:
+      - name: Set up dotnet env
+        uses: ./.github/actions/setup-dotnet
+        with:
+          dotnet-version: ${{ inputs.dotnet-version }}
+          working-directory: ${{ inputs.working-directory }}
+          
       - name: Checkout repository
         uses: actions/checkout@v4
     
