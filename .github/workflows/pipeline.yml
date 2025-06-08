@@ -63,3 +63,5 @@ jobs:
       dotnet-version: ${{ vars.DOTNET_VERSION }}
       publish-type: ${{ github.event.inputs.publish-type }}
       environment: ${{ github.event.inputs.environment }}
+    secrets:
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
