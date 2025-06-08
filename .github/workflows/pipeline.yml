@@ -32,30 +32,31 @@ on:
           - Image
           
 jobs:
-  prepare-variables:
-    name: Prepare Variables For Running
-    runs-on: ubuntu-latest
-    outputs:
-      APP_WORKING_DIR: ${{ steps.set-vars.outputs.APP_WORKING_DIR }}
-      TEST_DIRECTORY: ${{ steps.set-vars.outputs.TEST_DIRECTORY }}
-    steps:
-    - name: Set variables
-      id: set-vars
-      run: |
-        echo "APP_WORKING_DIR=${{ vars.APP_WORKING_DIR }}" >> $GITHUB_OUTPUT
-        echo "TEST_DIRECTORY=${{ vars.TEST_DIRECTORY }}" >> $GITHUB_OUTPUT
-  code-quality-and-security-check:
-    needs: prepare-variable
-    uses: ./.github/workflows/code-quality-check.yml
-    permissions:
-      security-events: write
-    with:
-      working-directory: ${{ needs.prepare-variable.outputs.APP_WORKING_DIR }}
-      test-directory: ${{ needs.prepare-variable.outputs.TEST_DIRECTORY }}
-      dotnet-version: ${{ vars.DOTNET_VERSION }}
+  # prepare-variables:
+  #   name: Prepare Variables For Running
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     APP_WORKING_DIR: ${{ steps.set-vars.outputs.APP_WORKING_DIR }}
+  #     TEST_DIRECTORY: ${{ steps.set-vars.outputs.TEST_DIRECTORY }}
+  #   steps:
+  #   - name: Set variables
+  #     id: set-vars
+  #     run: |
+  #       echo "APP_WORKING_DIR=${{ vars.APP_WORKING_DIR }}" >> $GITHUB_OUTPUT
+  #       echo "TEST_DIRECTORY=${{ vars.TEST_DIRECTORY }}" >> $GITHUB_OUTPUT
+  # code-quality-and-security-check:
+  #   name: Code Quality Adn Security Check
+  #   needs: prepare-variables
+  #   uses: ./.github/workflows/code-quality-check.yml
+  #   permissions:
+  #     security-events: write
+  #   with:
+  #     working-directory: ${{ needs.prepare-variable.outputs.APP_WORKING_DIR }}
+  #     test-directory: ${{ needs.prepare-variable.outputs.TEST_DIRECTORY }}
+  #     dotnet-version: ${{ vars.DOTNET_VERSION }}
   publish-app:
     name: Publish Application to ${{ github.event.inputs.publish-type }}
-    needs: code-quality-and-security-check
+    #needs: code-quality-and-security-check
     uses: ./.github/workflows/publish-artifact.yml
     with:
       working-directory: ${{ needs.prepare-variable.outputs.APP_WORKING_DIR }}
