@@ -33,6 +33,7 @@ on:
         type: string
       environment:
         description: 'Environment'
+        default: 'Non-Prod'
         required: true
         type: string
       dotnet-version:
@@ -41,6 +42,7 @@ on:
         type: string
       publish-type:
         description: 'Publish type (artifact or docker image)'
+        default: 'Artifact'
         required: true
         type: string
         
