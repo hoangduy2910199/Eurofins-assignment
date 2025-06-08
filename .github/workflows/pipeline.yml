@@ -44,19 +44,19 @@ jobs:
       run: |
         echo "APP_WORKING_DIR=${{ vars.APP_WORKING_DIR }}" >> $GITHUB_OUTPUT
         echo "TEST_DIRECTORY=${{ vars.TEST_DIRECTORY }}" >> $GITHUB_OUTPUT
-  # code-quality-and-security-check:
-  #   name: Code Quality And Security Check
-  #   needs: prepare-variables
-  #   uses: ./.github/workflows/code-quality-check.yml
-  #   permissions:
-  #     security-events: write
-  #   with:
-  #     working-directory: ${{ needs.prepare-variables.outputs.APP_WORKING_DIR }}
-  #     test-directory: ${{ needs.prepare-variables.outputs.TEST_DIRECTORY }}
-  #     dotnet-version: ${{ vars.DOTNET_VERSION }}
+  code-quality-and-security-check:
+    name: Code Quality And Security Check
+    needs: prepare-variables
+    uses: ./.github/workflows/code-quality-check.yml
+    permissions:
+      security-events: write
+    with:
+      working-directory: ${{ needs.prepare-variables.outputs.APP_WORKING_DIR }}
+      test-directory: ${{ needs.prepare-variables.outputs.TEST_DIRECTORY }}
+      dotnet-version: ${{ vars.DOTNET_VERSION }}
   publish-app:
     name: Publish Application to ${{ github.event.inputs.publish-type }}
-    needs: prepare-variables #code-quality-and-security-check
+    needs: [code-quality-and-security-check]
     uses: ./.github/workflows/publish-artifact.yml
     with:
       working-directory: ${{ needs.prepare-variables.outputs.APP_WORKING_DIR }}
