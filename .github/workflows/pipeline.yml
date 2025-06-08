@@ -22,14 +22,23 @@ on:
         options:
           - Non-Prod
           - Prod
-env:
-    APP_WORKING_DIR: "./app/HelloWorldApi/"
-    TEST_DIRECTORY: "./app/HelloWorldApi.Tests"
-    
+          
 jobs:
+  prepare-variable:
+    runs-on: ubuntu-latest
+    outputs:
+      APP_WORKING_DIR: ${{ steps.set-vars.outputs.APP_WORKING_DIR }}
+      TEST_DIRECTORY: ${{ steps.set-vars.outputs.TEST_DIRECTORY }}
+    steps:
+    - name: Set variables
+      id: set-vars
+      run: |
+        echo "APP_WORKING_DIR=${{ vars.APP_WORKING_DIR }}" >> $GITHUB_OUTPUT
+        echo "TEST_DIRECTORY=${{ vars.TEST_DIRECTORY }}" >> $GITHUB_OUTPUT
   code-quality-check:
+    needs: prepare-variable
     uses: ./.github/workflows/code-quality-check.yml
     with:
-      working-directory: $APP_WORKING_DIR
-      test-directory: $TEST_DIRECTORY
+      working-directory: ${{ needs.prepare-variable.outputs.APP_WORKING_DIR }}
+      test-directory: ${{ needs.prepare-variable.TEST_DIRECTORY }}
       dotnet-version: ${{ vars.DOTNET_VERSION }}
