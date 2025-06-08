@@ -40,5 +40,5 @@ jobs:
         working-directory: ${{ inputs.working-directory }}
 
       - name: Run tests
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test --verbosity normal
         working-directory: ${{ inputs.test-directory }}
