@@ -1,0 +1,36 @@
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        description: 'Project working directory'
+        required: true
+        type: string
+env:
+    APP_WORKING_DIR: "./app/HelloWorldApi/"
+jobs:
+  setup-dotnet:
+    name: Checkout and Setup .NET SDK
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ vars.DOTNET_VERSION }}
+        
+    - name: Create NuGet cache folder
+      run: mkdir -p ~/.nuget/packages
+
+    - name: Cache NuGet packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+    - name: Restore dependencies
+      working-directory: ${{ env.APP_WORKING_DIR }}
+      run: dotnet restore
