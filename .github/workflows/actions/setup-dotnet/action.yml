@@ -1,33 +1,34 @@
-name: 'Set up .Net evironment'
+name: 'Set up .NET SDK'
+description: 'This action sets up .NET SDK, caches dependencies, and restores project dependencies'
 
-on:
-  workflow_call:
-    inputs:
-      working-directory:
-        description: 'Project working directory'
-        required: true
-        type: string
-      dotnet-version:
-        description: '.NET SDK version'
-        required: true
-        type: string
-jobs:
-  setup-dotnet:
-    name: Checkout and Setup .NET SDK
-    runs-on: ubuntu-latest
+inputs:
+  working-directory:
+    description: 'Project working directory'
+    required: true
+    type: string
+  dotnet-version:
+    description: '.NET SDK version'
+    required: true
+    type: string
 
-    steps:
+runs:
+  using: 'composite'
+  steps:
+    # Step 1: Checkout repository
     - name: Checkout repository
       uses: actions/checkout@v4
-      
-    - name: Setup .NET
+
+    # Step 2: Setup .NET SDK
+    - name: Setup .NET SDK
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ inputs.dotnet-version }}
-        
+
+    # Step 3: Create NuGet cache folder
     - name: Create NuGet cache folder
       run: mkdir -p ~/.nuget/packages
 
+    # Step 4: Cache NuGet packages
     - name: Cache NuGet packages
       uses: actions/cache@v3
       with:
@@ -35,7 +36,8 @@ jobs:
         key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
         restore-keys: |
           ${{ runner.os }}-nuget-
-          
+
+    # Step 5: Restore dependencies
     - name: Restore dependencies
-      working-directory: "./${{ inputs.working-directory }}"
       run: dotnet restore
+      working-directory: ${{ inputs.working-directory }}
