@@ -47,28 +47,28 @@ This is Eurofins Devops engineer assignment. The main purpose is to automate a b
 
 1. Update code in app folder.
 
-    ![alt text](image.png)
+    ![alt text](./assets/image-.png)
 
 2. Pipeline is triggered. By default, the output will be an application artifact and pushed to Github registry.
 
-    ![alt text](image-1.png)
+    ![alt text](./assets/image-1-.png)
 
 3. Application Artifact is published
 
-    ![alt text](image-2.png)
+    ![alt text](./assets/image-2-.png)
 
 4. Code security scan report
-    ![alt text](image-3.png)
+    ![alt text](./assets/image-3-.png)
 
 5. If we would like to build a docker image, we'll trigger the workflow with *Image* publish-type option.
 
-    ![alt text](image-4.png)
+    ![alt text](./assets/image-4.png)
 
-    ![alt text](image-5.png)
+    ![alt text](./assets/image-5.png)
 
-    ![alt text](image-6.png)
+    ![alt text](./assets/image-6.png)
 
-    ![alt text](image-7.png)
+    ![alt text](./assets/image-7.png)
 
 # Powershell script to deploy a .Net website
 ## The script includes the following steps:
@@ -80,9 +80,9 @@ This is Eurofins Devops engineer assignment. The main purpose is to automate a b
 - Create the application under the website and associate it with the application pool.
 
 ## Example of running
-    ```
+    
         .\deploy-website.ps1 -Password "eurofins" -PfxPassword "eurofins" -BindingHost "localhosttest"
-    ```
+    
 
 
 ![alt text](./assets/image.png)
@@ -107,32 +107,32 @@ This is Eurofins Devops engineer assignment. The main purpose is to automate a b
 
 - Run script to deploy monitoring service.
 
-    ![alt text](image-8.png)
+    ![alt text](./assets/image-8.png)
 
 - The service is running with specified user.
 
-    ![alt text](image-9.png)
+    ![alt text](./assets/image-9.png)
 
 - The service is auto-start and recover after 300 second if failed.
 
-    ![alt text](image-11.png)
+    ![alt text](./assets/image-11.png)
 
 - Log is written into status.txt file.
 
-    ![alt text](image-10.png)
+    ![alt text](./assets/image-10.png)
 
 - When stop the IIS web app.
 
-    ![alt text](image-12.png)
+    ![alt text](./assets/image-12.png)
 
-    ![alt text](image-13.png)
+    ![alt text](./assets/image-13.png)
 
 - Service stopped due to status != 200 OK
 
-    ![alt text](image-14.png)
+    ![alt text](./assets/image-14.png)
 
 - Service auto-recover after 5 minutes.
 
-    ![alt text](image-15.png)
+    ![alt text](./assets/image-15.png)
 
-    ![alt text](image-16.png)
+    ![alt text](./assets/image-16.png)
