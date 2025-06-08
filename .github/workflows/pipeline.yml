@@ -6,8 +6,12 @@ name: Hello World App .Net pipeline
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'app/HelloWorldApi/**'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'app/HelloWorldApi/**'
   workflow_dispatch:
     inputs:
       environment:
@@ -20,31 +24,11 @@ on:
           - Prod
 env:
     APP_WORKING_DIR: "./app/HelloWorldApi/"
+    TEST_DIRECTORY: "./app/HelloWorldApi.Tests"
 jobs:
-  setup-dotnet:
-    name: Checkout and Setup .NET SDK
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: ${{ vars.DOTNET_VERSION }}
-        
-    - name: Create NuGet cache folder
-      run: mkdir -p ~/.nuget/packages
-
-    - name: Cache NuGet packages
-      uses: actions/cache@v3
-      with:
-        path: ~/.nuget/packages
-        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
-        restore-keys: |
-          ${{ runner.os }}-nuget-
-
-    - name: Restore dependencies
+  code-quality-check:
+    uses: .github/workflows/code-quality-check.yml@main
+    with:
+      dotnet-version: ${{ vars.DOTNET_VERSION }}
       working-directory: ${{ env.APP_WORKING_DIR }}
-      run: dotnet restore
+      test-directory: ${{env.TEST_DIRECTORY}}
