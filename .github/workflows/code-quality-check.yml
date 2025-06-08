@@ -20,16 +20,25 @@ jobs:
     uses: ./.github/workflows/set-up.yml
     with:
       dotnet-version: ${{ inputs.dotnet-version }}
-      working-directory: "../${{ inputs.working-directory }}"
+      working-directory: ${{ inputs.working-directory }}
       
   code-quality-check:
     needs: setup-environment
     runs-on: ubuntu-latest
     steps:
+      - name: Check current directory
+        run: |
+          echo "Current working directory:"
+          pwd  # Prints the current working directory
+          echo "Listing contents of the current directory:"
+          ls -la  # Lists all files and directories in the current directory
+          echo "Listing contents of the 'app/HelloWorldApi' directory:"
+          ls -la ./app/HelloWorldApi  # List the contents of the specific directory
+      
       - name: Build with warnings as errors (code quality)
         run: dotnet build --no-restore -c Release -warnaserror
         working-directory: ${{ inputs.working-directory }}
 
       - name: Run tests
         run: dotnet test --no-build --verbosity normal
-        working-directory: "../${{ inputs.test-directory }}"
+        working-directory: ${{ inputs.test-directory }}
