@@ -58,6 +58,5 @@ jobs:
     uses: ./.github/workflows/publish-artifact.yml
     with:
       working-directory: ${{ needs.prepare-variable.outputs.APP_WORKING_DIR }}
-      test-directory: ${{ needs.prepare-variable.outputs.TEST_DIRECTORY }}
       dotnet-version: ${{ vars.DOTNET_VERSION }}
       publish-type: ${{ github.event.inputs.publish-type }}
