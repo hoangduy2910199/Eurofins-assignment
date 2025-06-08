@@ -56,7 +56,7 @@ jobs:
       dotnet-version: ${{ vars.DOTNET_VERSION }}
   publish-app:
     name: Publish Application to ${{ github.event.inputs.publish-type }}
-    needs: code-quality-and-security-check
+    needs: [prepare-variables, code-quality-and-security-check]
     uses: ./.github/workflows/publish-artifact.yml
     with:
       working-directory: ${{ needs.prepare-variables.outputs.APP_WORKING_DIR }}
