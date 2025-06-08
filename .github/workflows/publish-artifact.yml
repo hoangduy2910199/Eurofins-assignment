@@ -41,6 +41,8 @@ on:
         description: 'Publish type (artifact or docker image)'
         required: true
         type: string
+    secrets:
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
         
 jobs:
   publish-artifact:
