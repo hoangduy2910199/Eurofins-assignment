@@ -35,7 +35,7 @@ jobs:
       run: |
         echo "APP_WORKING_DIR=${{ vars.APP_WORKING_DIR }}" >> $GITHUB_OUTPUT
         echo "TEST_DIRECTORY=${{ vars.TEST_DIRECTORY }}" >> $GITHUB_OUTPUT
-  code-quality-check:
+  code-quality-and-security-check:
     needs: prepare-variable
     uses: ./.github/workflows/code-quality-check.yml
     with:
