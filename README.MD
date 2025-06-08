@@ -5,6 +5,7 @@ This is Eurofins Devops engineer assignment. The main purpose is to automate a b
     |--
         |-- .github # contains github action pipeline
         |-- app # contains application code
+        |-- services # contains Windows services
         |-- artifact # contains appication zip
         |-- script # contains scripts
         |-- docker # contains docker file
@@ -31,3 +32,6 @@ This is Eurofins Devops engineer assignment. The main purpose is to automate a b
 ![alt text](./assets/image.png)
 ![alt text](./assets/image_2.png)
 ![alt text](./assets/image_3.png)
+
+
+*Note*: above running is for self-signed certificate. In case of using public certificate, we need to specify the path of PFX file through "-PfxPath <cert_path>" and disable self signed certificate "-SelfSignedCertificate False".

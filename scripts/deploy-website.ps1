@@ -212,7 +212,7 @@ try {
         Write-Host "Certificate for host '$BindingHost' already exists with thumbprint $($cert.Thumbprint)."
         $CertThumbprint = $cert.Thumbprint
     } elseif ($SeflSignedCert) {
-        Write-Host "No certificate found for host '$BindingHost'. Generating a self-signed certificate..."
+        Write-Host "No self signed certificate found for host '$BindingHost'. Generating a self-signed certificate..."
         Generate-SelfSignedCertificate -CertName $BindingHost -PfxPassword $PfxPassword
     }
     
