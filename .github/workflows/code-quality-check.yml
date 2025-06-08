@@ -25,9 +25,6 @@ jobs:
         with:
           dotnet-version: ${{ inputs.dotnet-version }}
           working-directory: ${{ inputs.working-directory }}
-          
-      - name: Checkout repository
-        uses: actions/checkout@v4
     
       - name: Check current directory
         run: |
@@ -39,7 +36,7 @@ jobs:
           ls -la ./app/HelloWorldApi  # List the contents of the specific directory
       
       - name: Build with warnings as errors (code quality)
-        run: dotnet build -c Release -warnaserror
+        run: dotnet build --no-restore -c Release -warnaserror
         working-directory: ${{ inputs.working-directory }}
 
       - name: Run tests
