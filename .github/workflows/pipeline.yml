@@ -37,7 +37,7 @@ jobs:
         echo "TEST_DIRECTORY=${{ vars.TEST_DIRECTORY }}" >> $GITHUB_OUTPUT
   code-quality-check:
     needs: prepare-variable
-    uses: ./.github/workflows/code-quality-check.yml@main
+    uses: ./.github/workflows/code-quality-check.yml
     with:
       working-directory: ${{ needs.prepare-variable.outputs.APP_WORKING_DIR }}
       test-directory: ${{ needs.prepare-variable.TEST_DIRECTORY }}
