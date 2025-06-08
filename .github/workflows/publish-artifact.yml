@@ -51,6 +51,7 @@ jobs:
 
       - name: Publish application
         run: dotnet publish --no-restore -c Release -o ./publish
+        working-directory: "./${{ inputs.working-directory }}"
 
       - name: Upload published artifact
         uses: actions/upload-artifact@v4
