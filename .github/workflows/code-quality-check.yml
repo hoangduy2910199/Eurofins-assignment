@@ -39,7 +39,7 @@ jobs:
           ls -la ./app/HelloWorldApi  # List the contents of the specific directory
       
       - name: Build with warnings as errors (code quality)
-        run: dotnet build --no-restore -c Release -warnaserror
+        run: dotnet build -c Release -warnaserror
         working-directory: ${{ inputs.working-directory }}
 
       - name: Run tests
