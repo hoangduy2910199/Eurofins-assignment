@@ -32,7 +32,8 @@ on:
           - Image
           
 jobs:
-  prepare-variable:
+  prepare-variables:
+    name: Prepare Variables For Running
     runs-on: ubuntu-latest
     outputs:
       APP_WORKING_DIR: ${{ steps.set-vars.outputs.APP_WORKING_DIR }}
