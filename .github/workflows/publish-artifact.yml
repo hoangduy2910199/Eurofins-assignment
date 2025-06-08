@@ -11,6 +11,10 @@ on:
         description: '.NET SDK version'
         required: true
         type: string
+      environment:
+        description: '.NET SDK version'
+        required: true
+        type: string
       publish-type:
         description: 'Publish type (artifact or docker image)'
         required: true
@@ -33,7 +37,7 @@ on:
         description: 'Publish type (artifact or docker image)'
         required: true
         type: string
-
+        
 jobs:
   publish-artifact:
     name: Build & Publish Artifact
@@ -58,3 +62,27 @@ jobs:
         with:
           name: helloworld-app
           path: "./${{ inputs.working-directory }}/publish"
+  public-image:
+     name: Public Docker Image
+     runs-on: ubuntu-latest
+     if: ${{ inputs.publish-type == 'image' }}
+     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v3
+
+      - name: Generate datetime-based tag
+        run: echo "IMAGE_TAG=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+      
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/helloworld-api:${{ inputs.environment }}-${{ env.IMAGE_TAG }} ./docker
+          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/helloworld-api:${{ inputs.environment }}-${{ env.IMAGE_TAG }} ${{ secrets.DOCKERHUB_USERNAME }}/helloworld-api:${{ inputs.environment }}-latest
