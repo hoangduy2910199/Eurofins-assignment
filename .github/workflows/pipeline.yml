@@ -25,7 +25,7 @@ on:
 env:
     APP_WORKING_DIR: "./app/HelloWorldApi/"
     TEST_DIRECTORY: "./app/HelloWorldApi.Tests"
-    DOTNET_VERSION: "8.0"
+    DOTNET_VERSION: ${{ vars.DOTNET_VERSION }}
     
 jobs:
   code-quality-check:
